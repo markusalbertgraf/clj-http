@@ -161,7 +161,8 @@
                               max-redirects
                               cookie-spec
                               normalize-uri
-                              ; deprecated
+                              local-address
+                                        ; deprecated
                               conn-request-timeout
                               conn-timeout]
                        :as req}]
@@ -181,6 +182,8 @@
       (.setCookieSpec config (get-cookie-policy req)))
     (when max-redirects (.setMaxRedirects config max-redirects))
     (when-not (nil? normalize-uri) (.setNormalizeUri config normalize-uri))
+    (when local-address
+      (.setLocalAddress config (InetAddress/getByName local-address)))
     (.build config)))
 
 (defmulti ^:private construct-http-host (fn [proxy-host proxy-port]
